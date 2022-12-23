@@ -37,18 +37,13 @@ def _label_datafeed(data):
     # _name: user assigned value upon instantiation
     # shortname: used by some datafeeds
     # _dataname: underlying bt dataname (should always be available as last resort)
-    prim_names = ['_name', 'shortname', '_dataname', '_store']
+    prim_names = ['_name', 'shortname', '_dataname']
     labels = []
     for n in prim_names:
-        val = getattr(data, n, None)
-        if val is None:
+        val = getattr(data, n, '')
+        if val is None or val == '':
             continue
-        if n == '_store':
-            s = getattr(val, 'symbol', None)
-            if s is not None:
-                val = s
         val = str(val)
-
         if len(val) > 0:
             labels.append(val)
             break
