@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import threading
 
 import numpy as np
+import pandas as pd
 
 import backtrader as bt
 
@@ -200,7 +201,8 @@ class PlotListener(bt.ListenerBase):
                 new_frame = self._bokeh.build_strategy_data(strategy, num_back=num_back, startidx=nextidx)
 
                 # append data and remove old data
-                self._datastore = self._datastore.append(new_frame)
+                # self._datastore = self._datastore.append(new_frame)
+                self._datastore = pd.concat([self._datastore, new_frame], ignore_index=True)
                 self._datastore = self._datastore.tail(self.p.lookback)
 
                 for client in self._clients.values():
